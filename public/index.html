@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فطائر حد السوالم - الفطائر المغربية الأصيلة</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo" onclick="location.href='/'">
+      <div class="logo-icon">🥞</div>
+      <span>فطائر حد السوالم</span>
+    </div>
+    <nav>
+      <a href="/">الرئيسية</a>
+      <a href="/about.html">من نحن</a>
+      <a href="/contact.html">تواصل معنا</a>
+      <button class="cart-btn" onclick="location.href='/cart.html'">
+        🛒 السلة <span class="badge" id="cartBadge">0</span>
+      </button>
+      <button id="loginBtn" onclick="location.href='/login.html'">دخول</button>
+      <button id="logoutBtn" style="display:none" onclick="logout()">خروج</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>🥞 فطائر حد السوالم</h1>
+  <p>نكهة مغربية أصيلة في قلب حد السوالم — مسمن، بغرير، رزيزة، حرشة... كلشي كيتحضر قدامك!</p>
+  <a href="#products" class="btn">🛒 اطلب دابا</a>
+</section>
+
+<div class="container">
+  <h2 class="section-title">🔥 الأكثر طلباً</h2>
+  <p class="section-subtitle">المنتجات اللي كيحبوها الزبائن ديالنا</p>
+  <div class="products-grid" id="featuredGrid"></div>
+</div>
+
+<div class="container" id="products">
+  <h2 class="section-title">📋 قائمة الفطائر</h2>
+  <p class="section-subtitle">اختار من عندنا أحسن الفطائر المغربية</p>
+  
+  <div class="filters">
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 ابحث عن فطيرة...">
+    <button class="filter-btn active" data-cat="all">الكل</button>
+    <button class="filter-btn" data-cat="مسمن">🥞 مسمن</button>
+    <button class="filter-btn" data-cat="رزيزة">🥖 رزيزة</button>
+    <button class="filter-btn" data-cat="بغرير">🥯 بغرير</button>
+    <button class="filter-btn" data-cat="بطبوط">🫓 بطبوط</button>
+    <button class="filter-btn" data-cat="حرشة">🥮 حرشة</button>
+    <button class="filter-btn" data-cat="متنوعة">🧆 متنوعة</button>
+  </div>
+  
+  <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<footer>
+  <p>© 2024 <strong>فطائر حد السوالم</strong> - جميع الحقوق محفوظة</p>
+</footer>
+
+<a href="https://wa.me/212600000000" class="whatsapp-float" target="_blank">💬</a>
+<div class="toast" id="toast"></div>
+
+<script src="/js/main.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>السلة - فطائر حد السوالم</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo" onclick="location.href='/'">
+      <div class="logo-icon">🥞</div>
+      <span>فطائر حد السوالم</span>
+    </div>
+    <nav>
+      <a href="/">الرئيسية</a>
+      <a href="/about.html">من نحن</a>
+      <a href="/contact.html">تواصل معنا</a>
+      <button class="cart-btn">🛒 السلة <span class="badge" id="cartBadge">0</span></button>
+    </nav>
+  </div>
+</header>
+
+<div class="container" style="max-width:800px;">
+  <h2 class="section-title">🛒 سلة المشتريات</h2>
+
+  <div id="cartItems"></div>
+
+  <div id="cartSummary" style="display:none">
+    <div class="cart-total">
+      <span>المجموع:</span>
+      <span id="cartTotal">0.00 درهم</span>
+    </div>
+
+    <div style="background:white;padding:2rem;border-radius:20px;margin-top:1.5rem;box-shadow:0 4px 20px rgba(0,0,0,0.06)">
+      <h3 style="color:var(--primary);margin-bottom:1rem">📝 معلومات الطلب</h3>
+      <form id="orderForm">
+        <div class="form-group">
+          <label>👤 الاسم الكامل</label>
+          <input type="text" id="orderName" required>
+        </div>
+        <div class="form-group">
+          <label>📞 رقم الهاتف</label>
+          <input type="tel" id="orderPhone" required>
+        </div>
+        <div class="form-group">
+          <label>🕐 وقت الاستلام (اختياري)</label>
+          <input type="text" id="orderPickup" placeholder="مثال: 18:00">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">✅ تأكيد الطلب</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="emptyCart" class="empty" style="display:none">
+    <div class="empty-icon">🛒</div>
+    <h3>السلة فارغة</h3>
+    <p>زيد شي فطيرة باش تكمل الطلب</p>
+    <a href="/" class="btn btn-primary" style="margin-top:1rem">🥞 شوف القائمة</a>
+  </div>
+</div>
+
+<footer><p>© 2024 <strong>فطائر حد السوالم</strong></p></footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const allProducts = [];
+</script>
+<script src="/js/main.js"></script>
+<script src="/js/cart.js"></script>
+</body>
+</html>

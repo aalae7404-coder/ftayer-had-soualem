@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم - فطائر حد السوالم</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo" onclick="location.href='/'">
+      <div class="logo-icon">🥞</div>
+      <span>فطائر حد السوالم</span>
+    </div>
+    <nav>
+      <a href="/">🏠 الموقع</a>
+      <span style="color:white" id="adminName">🛡️ Admin</span>
+      <button onclick="logout()" style="background:rgba(255,255,255,0.2);padding:0.5rem 1rem;border-radius:20px;">🚪 خروج</button>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <h2 class="section-title">🛡️ لوحة التحكم</h2>
+  <p class="section-subtitle">مرحباً بك في لوحة تحكم <strong>فطائر حد السوالم</strong></p>
+
+  <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="dashboard">📊 الرئيسية</button>
+    <button class="admin-tab" data-tab="products">📦 المنتجات</button>
+    <button class="admin-tab" data-tab="orders">📋 الطلبات</button>
+    <button class="admin-tab" data-tab="customers">👥 الزبائن</button>
+  </div>
+
+  <div id="tab-dashboard" class="tab-content">
+    <div class="stats-grid">
+      <div class="stat-card"><h3 id="statOrders">0</h3><p>📦 عدد الطلبات</p></div>
+      <div class="stat-card"><h3 id="statSales">0</h3><p>💰 المبيعات (درهم)</p></div>
+      <div class="stat-card"><h3 id="statCustomers">0</h3><p>👥 الزبائن</p></div>
+      <div class="stat-card"><h3 id="statProducts">0</h3><p>🥞 المنتجات</p></div>
+    </div>
+  </div>
+
+  <div id="tab-products" class="tab-content" style="display:none">
+    <button class="btn btn-primary" onclick="openProductModal()" style="margin-bottom:1.5rem">➕ إضافة منتج جديد</button>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>الصورة</th><th>الاسم</th><th>السعر</th><th>الفئة</th><th>متوفر</th><th>إجراءات</th></tr>
+        </thead>
+        <tbody id="productsTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-orders" class="tab-content" style="display:none">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>الزبون</th><th>المنتجات</th><th>المجموع</th><th>الحالة</th><th>التاريخ</th></tr>
+        </thead>
+        <tbody id="ordersTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-customers" class="tab-content" style="display:none">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>الاسم</th><th>البريد</th><th>تاريخ التسجيل</th></tr>
+        </thead>
+        <tbody id="customersTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <h2 id="modalTitle">➕ إضافة منتج</h2>
+    <form id="productForm">
+      <input type="hidden" id="productId">
+      <div class="form-group">
+        <label>📷 صورة المنتج</label>
+        <input type="file" id="productImage" accept="image/*">
+      </div>
+      <div class="form-group">
+        <label>📝 اسم المنتج</label>
+        <input type="text" id="productName" required>
+      </div>
+      <div class="form-group">
+        <label>📄 الوصف</label>
+        <textarea id="productDesc"></textarea>
+      </div>
+      <div class="form-group">
+        <label>💰 السعر (درهم)</label>
+        <input type="number" id="productPrice" step="0.5" required>
+      </div>
+      <div class="form-group">
+        <label>💸 السعر القديم (اختياري)</label>
+        <input type="number" id="productOldPrice" step="0.5">
+      </div>
+      <div class="form-group">
+        <label>🏷️ الفئة</label>
+        <select id="productCategory">
+          <option value="مسمن">مسمن</option>
+          <option value="رزيزة">رزيزة</option>
+          <option value="بغرير">بغرير</option>
+          <option value="بطبوط">بطبوط</option>
+          <option value="حرشة">حرشة</option>
+          <option value="متنوعة">متنوعة</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="productAvailable" checked> ✅ متوفر</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="productFeatured"> 🔥 الأكثر طلباً</label>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">💾 حفظ</button>
+      <button type="button" class="btn" onclick="closeProductModal()" style="width:100%;margin-top:0.5rem;background:#eee;color:#333">❌ إلغاء</button>
+    </form>
+  </div>
+</div>
+
+<footer><p>© 2024 <strong>فطائر حد السوالم</strong> - لوحة التحكم</p></footer>
+<div class="toast" id="toast"></div>
+
+<script src="/js/main.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

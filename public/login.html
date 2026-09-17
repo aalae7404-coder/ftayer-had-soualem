@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول - فطائر حد السوالم</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo" onclick="location.href='/'">
+      <div class="logo-icon">🥞</div>
+      <span>فطائر حد السوالم</span>
+    </div>
+    <nav>
+      <a href="/">الرئيسية</a>
+      <a href="/about.html">من نحن</a>
+      <a href="/contact.html">تواصل معنا</a>
+      <button class="cart-btn" onclick="location.href='/cart.html'">
+        🛒 السلة <span class="badge" id="cartBadge">0</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div class="container" style="max-width:500px;">
+  <h2 class="section-title">👋 مرحباً بك</h2>
+  <p class="section-subtitle">في فطائر حد السوالم</p>
+
+  <div style="background:white;padding:2rem;border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+    
+    <div class="admin-tabs" style="justify-content:center;">
+      <button class="admin-tab active" data-tab="login">🔑 دخول</button>
+      <button class="admin-tab" data-tab="register">📝 تسجيل</button>
+      <button class="admin-tab" data-tab="admin">🛡️ أدمن</button>
+    </div>
+
+    <!-- نموذج تسجيل الدخول العادي -->
+    <form id="loginForm">
+      <div class="form-group">
+        <label>📧 البريد الإلكتروني</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label>🔒 كلمة السر</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">🔑 دخول</button>
+    </form>
+
+    <!-- نموذج إنشاء حساب جديد -->
+    <form id="registerForm" style="display:none">
+      <div class="form-group">
+        <label>👤 الاسم الكامل</label>
+        <input type="text" id="regName" required>
+      </div>
+      <div class="form-group">
+        <label>📧 البريد الإلكتروني</label>
+        <input type="email" id="regEmail" required>
+      </div>
+      <div class="form-group">
+        <label>🔒 كلمة السر (6 أحرف على الأقل)</label>
+        <input type="password" id="regPassword" required minlength="6">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">📝 إنشاء الحساب</button>
+    </form>
+
+    <!-- قسم الأدمن -->
+    <div id="adminForm" style="display:none">
+      <!-- إنشاء الأدمن (أول مرة) -->
+      <div id="adminCreateSection">
+        <p style="color:var(--primary);font-weight:700;margin-bottom:1rem;">
+          🛡️ أول مرة؟ أنشئ حساب الأدمن
+        </p>
+        <div class="form-group">
+          <label>👤 الاسم</label>
+          <input type="text" id="adminName">
+        </div>
+        <div class="form-group">
+          <label>📧 البريد الإلكتروني</label>
+          <input type="email" id="adminEmail">
+        </div>
+        <div class="form-group">
+          <label>🔑 كلمة السر (6 أحرف على الأقل)</label>
+          <input type="password" id="adminPassword" minlength="6">
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="createAdmin()">
+          ✅ إنشاء حساب الأدمن
+        </button>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--muted);text-align:center;">
+          ⚠️ احفظ كلمة السر فـ مكان آمن!
+        </p>
+      </div>
+
+      <!-- تسجيل دخول الأدمن (من بعد) -->
+      <div id="adminLoginSection" style="display:none">
+        <p style="color:var(--primary);font-weight:700;margin-bottom:1rem;">
+          🛡️ دخول الأدمن
+        </p>
+        <div class="form-group">
+          <label>🔑 كلمة سر الأدمن</label>
+          <input type="password" id="adminLoginPass">
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">
+          🚪 دخول
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2024 <strong>فطائر حد السوالم</strong> - جميع الحقوق محفوظة</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="/js/main.js"></script>
+<script>
+// ====== تبديل التبويبات ======
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('adminForm').style.display = 'none';
+    
+    const t = tab.dataset.tab;
+    if (t === 'login') document.getElementById('loginForm').style.display = 'block';
+    if (t === 'register') document.getElementById('registerForm').style.display = 'block';
+    if (t === 'admin') {
+      document.getElementById('adminForm').style.display = 'block';
+      checkAdminStatus();
+    }
+  });
+});
+
+// ====== تسجيل دخول عادي ======
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ email, password })
+  });
+  const data = await res.json();
+  
+  if (data.user) {
+    showToast('✅ مرحباً ' + data.user.name, 'success');
+    setTimeout(() => {
+      location.href = data.user.role === 'admin' ? '/admin.html' : '/';
+    }, 800);
+  } else {
+    showToast('❌ ' + (data.error || 'خطأ'), 'error');
+  }
+});
+
+// ====== تسجيل جديد ======
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const password = document.getElementById('regPassword').value;
+  
+  const res = await fetch('/api/register', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ name, email, password })
+  });
+  const data = await res.json();
+  
+  if (data.user) {
+    showToast('✅ تم إنشاء حسابك!', 'success');
+    setTimeout(() => location.href = '/', 800);
+  } else {
+    showToast('❌ ' + (data.error || 'خطأ'), 'error');
+  }
+});
+
+// ====== فحص حالة الأدمن ======
+async function checkAdminStatus() {
+  const res = await fetch('/api/admin-status');
+  const data = await res.json();
+  
+  if (data.adminExists) {
+    document.getElementById('adminCreateSection').style.display = 'none';
+    document.getElementById('adminLoginSection').style.display = 'block';
+  } else {
+    document.getElementById('adminCreateSection').style.display = 'block';
+    document.getElementById('adminLoginSection').style.display = 'none';
+  }
+}
+
+// ====== إنشاء أدمن ======
+async function createAdmin() {
+  const name = document.getElementById('adminName').value;
+  const email = document.getElementById('adminEmail').value;
+  const password = document.getElementById('adminPassword').value;
+  
+  if (!name || !email || !password || password.length < 6) {
+    return showToast('❌ املأ جميع الحقول (كلمة السر 6+)', 'error');
+  }
+  
+  const res = await fetch('/api/create-admin', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ name, email, password })
+  });
+  const data = await res.json();
+  
+  if (data.success) {
+    showToast('✅ تم إنشاء الأدمن! سجل دخول دابا', 'success');
+    checkAdminStatus();
+  } else {
+    showToast('❌ ' + (data.error || 'خطأ'), 'error');
+  }
+}
+
+// ====== دخول أدمن ======
+async function adminLogin() {
+  const adminPassword = document.getElementById('adminLoginPass').value;
+  
+  if (!adminPassword) {
+    return showToast('❌ اكتب كلمة السر', 'error');
+  }
+  
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ adminPassword })
+  });
+  const data = await res.json();
+  
+  if (data.user && data.user.role === 'admin') {
+    showToast('✅ مرحباً أدمن!', 'success');
+    setTimeout(() => location.href = '/admin.html', 800);
+  } else {
+    showToast('❌ ' + (data.error || 'خطأ'), 'error');
+  }
+}
+</script>
+</body>
+</html>
